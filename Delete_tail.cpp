@@ -1,4 +1,4 @@
- #include <iostream>
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -33,12 +33,36 @@ Node* covertArrtoLL (vector<int> &arr){
     return head;
 }
 
+void print(Node* head){
+    while(head != NULL){
+        cout << head->data<<" ";
+        head = head->next;
+    }
+}
+
+//Node* removeHead(Node* head){
+  //  if(head == NULL) return head;
+   // Node* temp =  head;
+   // head = head->next;
+    //delete(temp);
+    // return head;
+// }
+Node* removeTail(Node* head){
+    if(head == NULL || head->next == NULL) return NULL;
+
+        Node* temp = head;
+        while(temp->next->next != NULL){
+            temp = temp->next;
+        }
+        delete temp->next;
+        temp->next = nullptr;
+
+    return head;
+}
+
 int main(){
     vector<int> arr = {2, 5, 8, 7};
     Node* head = covertArrtoLL(arr);
-    Node* temp = head;
-    while(temp){
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
+    head  = removeTail(head);
+    print (head);
 }
