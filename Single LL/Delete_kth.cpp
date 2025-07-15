@@ -1,0 +1,98 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Node {
+    public:
+    int data;
+    Node* next;
+
+    public:       // You define a Node class that represents an element in the linked list. It contains:
+    Node(int data1, Node* next1){    // allows setting both data and pointer
+
+
+        data = data1;
+        next = next1;
+    }
+
+    public:       
+    Node(int data1){    // initializes next to nullptr (used for end of the list)
+        data = data1;
+        next = nullptr;   
+    }
+};
+
+Node* covertArrtoLL (vector<int> &arr){
+    Node* head = new Node(arr[0]);   //we should only focus on the head
+    Node* mover = head;
+    for(int i = 1; i<arr.size(); i++){
+        Node* temp = new Node(arr[i]);
+        mover -> next = temp;
+        mover = temp;
+    }
+    return head;
+}
+
+void print(Node* head){
+    while(head != NULL){
+        cout << head->data<<" ";
+        head = head->next;
+    }
+}
+
+Node* removeHead(Node* head){
+    if(head == NULL) return head;
+    Node* temp =  head;
+    head = head->next;
+    delete(temp);
+     return head;
+}
+Node* removeTail(Node* head){
+    if(head == NULL || head->next == NULL) return NULL;
+
+        Node* temp = head;
+        while(temp->next->next != NULL){
+            temp = temp->next;
+        }
+        delete temp->next;
+        temp->next = nullptr;
+
+    return head;
+}
+Node* RemoveK(Node* head, int k){
+    if(head == NULL) return head;
+
+    // Special case: remove first node
+    if(k == 1){
+        Node* temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+
+    Node* temp = head;
+    Node* prev = NULL;
+    int count = 1;
+
+    while(temp != NULL && count < k){
+        prev = temp;
+        temp = temp->next;
+        count++;
+    }
+
+    // Check if the kth node exists
+    if(temp != NULL && prev != NULL){
+        prev->next = temp->next;
+        free(temp);
+    }
+
+    return head;
+}
+
+int main(){
+    vector<int> arr = {2, 5, 8, 7};
+    Node* head = covertArrtoLL(arr);  // Make sure this function is correctly defined
+    head = RemoveK(head, 2);
+    print(head);  // Ensure 'print' is implemented properly
+}
+
